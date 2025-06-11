@@ -29,26 +29,26 @@ export default function CadastrarFeedback() {
     setTimeout(() => setMensagem(false), 3000);
   }
 
+  function removerPreview(index) {
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  }
+
   function toggleEstrela(num) {
     setEstrelasSelecionadas((prev) => {
       const max = prev.length > 0 ? Math.max(...prev) : 0;
 
       if (prev.includes(num)) {
-        // Só permite desmarcar a última estrela selecionada
         if (num === max) {
           return prev.filter((e) => e !== num);
         }
-        // Ignora desmarcar estrelas do meio
         return prev;
       } else {
-        // Permite adicionar só a próxima estrela sequencial
         if (prev.length === 0 && num === 1) {
           return [1];
         }
         if (num === max + 1) {
           return [...prev, num];
         }
-        // Ignora se tentar pular estrelas
         return prev;
       }
     });
@@ -105,14 +105,26 @@ export default function CadastrarFeedback() {
         </label>
 
         {previews.length > 0 && (
-          <div className={styles.previewContainer}>
+          <div className={styles.containerPrevia}>
             {previews.map((src, index) => (
-              <img
+              <div
                 key={index}
-                src={src}
-                alt={`preview ${index + 1}`}
-                className={styles.previewImg}
-              />
+                style={{ position: "relative", display: "inline-block" }}
+              >
+                <img
+                  src={src}
+                  alt={`prévia ${index + 1}`}
+                  className={styles.imagemPrevia}
+                />
+                <button
+                  type="button"
+                  onClick={() => removerPreview(index)}
+                  aria-label="Remover imagem"
+                  className={styles.botaoRemoverImagem}
+                >
+                  ×
+                </button>
+              </div>
             ))}
           </div>
         )}
