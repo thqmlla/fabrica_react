@@ -35,22 +35,10 @@ export default function CadastrarFeedback() {
 
   function toggleEstrela(num) {
     setEstrelasSelecionadas((prev) => {
-      const max = prev.length > 0 ? Math.max(...prev) : 0;
-
-      if (prev.includes(num)) {
-        if (num === max) {
-          return prev.filter((e) => e !== num);
-        }
-        return prev;
-      } else {
-        if (prev.length === 0 && num === 1) {
-          return [1];
-        }
-        if (num === max + 1) {
-          return [...prev, num];
-        }
-        return prev;
+      if (prev.length === 1 && prev[0] === num) {
+        return [];
       }
+      return Array.from({ length: num }, (_, i) => i + 1);
     });
   }
 
